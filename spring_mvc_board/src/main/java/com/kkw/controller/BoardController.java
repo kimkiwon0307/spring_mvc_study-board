@@ -26,6 +26,11 @@ public class BoardController {
 		model.addAttribute("list",service.getList());
 	}
 	
+	//등록하기 (GET)
+	@GetMapping("/register")
+	public void register() {};
+	
+	
 	//등록하기
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
@@ -38,7 +43,7 @@ public class BoardController {
 	}
 	
 	//조회하기
-	@GetMapping("/get")
+	@GetMapping({"/get","/modify"})
 	public void get(@RequestParam("bno")Long bno, Model model) {
 		model.addAttribute("board",service.get(bno));
 	}

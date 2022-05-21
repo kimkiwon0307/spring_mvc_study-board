@@ -3,6 +3,7 @@ package com.kkw.service;
 import java.util.List;
 
 import com.kkw.domain.BoardVO;
+import com.kkw.domain.Criteria;
 
 public interface BoardService {
 	
@@ -21,4 +22,7 @@ public interface BoardService {
 	//게시판 목록
 	public List<BoardVO> getList();
 
+	//페이징
+	public List<BoardVO> getList(Criteria cri);
+	
 }

@@ -3,6 +3,7 @@ package com.kkw.mapper;
 import java.util.List;
 
 import com.kkw.domain.BoardVO;
+import com.kkw.domain.Criteria;
 
 public interface BoardMapper {
 	
@@ -23,5 +24,8 @@ public interface BoardMapper {
 	
 	//게시판 수정
 	public int update (BoardVO board);
+	
+	//페이징
+	public List<BoardVO> getListWithPaging(Criteria cri);
 	
 }

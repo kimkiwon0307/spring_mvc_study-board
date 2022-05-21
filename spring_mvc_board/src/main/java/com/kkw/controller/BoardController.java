@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kkw.domain.BoardVO;
+import com.kkw.domain.Criteria;
 import com.kkw.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -20,10 +21,10 @@ public class BoardController {
 
 	private BoardService service;
 	
-	//전체목록
+	//전체목록 + 페이징
 	@GetMapping("/list")
-	public void list(Model model) {
-		model.addAttribute("list",service.getList());
+	public void list(Model model, Criteria cri) {
+		model.addAttribute("list",service.getList(cri));
 	}
 	
 	//등록하기 (GET)

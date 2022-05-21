@@ -45,10 +45,10 @@
 					<span class="input-group-text">내 용</span>
   					<textarea class="form-control" aria-label="With textarea" name="content" readonly="readonly">${board.content}</textarea>
 				</div>
-
+				
 
 				<div class="btn_group">
-					<button type="button" class="btn btn-primary" id="btn_write">수 정</button>
+					<button type="button" class="btn btn-primary" id="btn_update">수 정</button>
 					<button type="button" class="btn btn-danger" id="btn_list">목 록</button>
 				</div>
 			</div>
@@ -63,8 +63,15 @@
 			
 			// 목록 버튼 누르면 목록으로 가기
 			$("#btn_list").on("click",function(){
-				location.href="/controller/freeboard/list"
+				location.href="/controller/board/list"
 			})
+			
+			// 수정 버튼 누르면 수정페이지로 이동
+			$("#btn_update").on("click",function(){
+				location.href="/controller/board/modify?bno=" + ${board.bno};
+			})
+			
+			
 			
 		})
 	

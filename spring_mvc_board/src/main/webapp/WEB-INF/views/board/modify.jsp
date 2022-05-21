@@ -26,7 +26,7 @@
 			
 		</div>
 		
-		<form action="/controller/board/modify" method="post" >
+		<form action="/controller/board/modify" method="post" id="form_modify">
 					
 			<div class="input_group_a">
 			
@@ -51,8 +51,8 @@
 
 
 				<div class="btn_group">
-					<button type="submit" class="btn btn-primary" id="btn_write">수 정</button>
-					<button type="button" class="btn btn-danger" id="btn_list">삭 제</button>
+					<button type="submit" class="btn btn-primary" id="btn_update">수 정</button>
+					<button type="submit" class="btn btn-danger" id="btn_delete">삭 제</button>
 					<button type="button" class="btn btn-danger" id="btn_list">목 록</button>
 				</div>
 			</div>
@@ -64,13 +64,19 @@
 	</div>
 
 	<script>
-		$(document).ready(function(){
-			
-			
-			})
-			
-		})
-	
+			$(document).ready(function(){
+				
+				$("#btn_list").on("click",function(){
+					self.location ="/controller/board/list";
+				});
+				
+				
+				$("#btn_delete").on("click",function(e){
+					e.preventDefault();
+					$("#form_modify").attr("action","/controller/board/remove");
+					$(this).unbind('click').click()
+				});
+			})	
 	</script>
 
 </body>

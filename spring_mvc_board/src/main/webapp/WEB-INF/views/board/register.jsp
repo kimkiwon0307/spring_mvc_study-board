@@ -65,7 +65,7 @@
 			
 			// 목록 버튼 누르면 목록으로 가기
 			$("#btn_list").on("click",function(){
-				location.href="/controller/freeboard/list"
+				location.href="/controller/board/list"
 			})
 			
 		})

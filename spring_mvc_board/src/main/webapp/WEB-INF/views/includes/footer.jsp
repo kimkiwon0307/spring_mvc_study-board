@@ -3,9 +3,6 @@
 
 
 
-
-
-
 <div class="container" style="margin-top: 100px">
   <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">

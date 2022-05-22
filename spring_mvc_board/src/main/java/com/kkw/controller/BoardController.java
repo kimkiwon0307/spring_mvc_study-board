@@ -3,6 +3,7 @@ package com.kkw.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kkw.domain.BoardVO;
 import com.kkw.domain.Criteria;
+import com.kkw.domain.PageDTO;
 import com.kkw.service.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +27,7 @@ public class BoardController {
 	@GetMapping("/list")
 	public void list(Model model, Criteria cri) {
 		model.addAttribute("list",service.getList(cri));
+		model.addAttribute("pageMaker", new PageDTO(cri, 123));
 	}
 	
 	//등록하기 (GET)
@@ -43,10 +46,11 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
-	//조회하기
+	//조회하기 + 페이징
 	@GetMapping({"/get","/modify"})
-	public void get(@RequestParam("bno")Long bno, Model model) {
+	public void get(@RequestParam("bno")Long bno, Model model, @ModelAttribute("cri")Criteria cri) {
 		model.addAttribute("board",service.get(bno));
+		
 	}
 	
 	//수정하기

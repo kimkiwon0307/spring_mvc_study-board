@@ -23,7 +23,6 @@
 			<div class = "subject_h5">
 				<h5>홈 > SpringMVC게시판 > 글쓰기</h5>
 			</div>
-			
 		</div>
 		
 		<form action="/controller/board/register" method="post" >

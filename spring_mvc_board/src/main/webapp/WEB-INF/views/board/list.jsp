@@ -28,9 +28,8 @@
 						<c:forEach items="${list}" var="board">
 							<tr>
 								<td><c:out value="${board.bno}" /></td>
-								<td><a href="/controller/board/get?bno=<c:out value="${board.bno}"/>">
-									<c:out value="${board.title}" /></a>
-								</td>
+								<td><a class="go_get" href="${board.bno}">	<c:out value="${board.title}" />
+								</a></td>
 								<td><c:out value="${board.writer}" /></td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd"
 										value="${board.regdate}" /></td>
@@ -39,8 +38,8 @@
 						</c:forEach>
 					</tbody>
 				</table>
-				
-				
+
+
 				<!-- modal -->
 				<div class="modal" tabindex="-1" id="checkModal">
 					<div class="modal-dialog">
@@ -64,11 +63,42 @@
 				</div>
 				<!-- /modal -->
 			</div>
-				<button type="button" class="btn btn-primary" id="btn_register">등록</button>
+			
+			<!-- pagination -->
+			<nav aria-label="Page navigation">
+				<ul class="pagination">
+					
+				  <c:if test="${pageMaker.prev}">
+					<li class="page-item disabled">
+						<a class="page-link" href="${pageMaker.startPage -1}"tabindex="-1" aria-disabled="true">Previous</a>
+					</li>
+				  </c:if>	
+
+				  <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+					<li class="page-item ${pageMaker.cri.pageNum == num ? "active" : "" }">
+						<a class="page-link" href="${num}">${num}</a>
+					</li>
+				  </c:forEach>
+
+				   <c:if test="${pageMaker.next}">
+					<li class="page-item">
+						<a class="page-link" href="${pageMaker.endPage -1}">Next</a>
+					</li>
+				  </c:if>
+				</ul>
+			</nav>
+		<!-- /pagination -->
+			<button type="button" class="btn btn-primary" id="btn_register">등록</button>
+			
+			<form action="/controller/board/list" method="get" id="with_paging">
+				<input type="hidden" name='pageNum' value="${pageMaker.cri.pageNum}">
+				<input type="hidden" name='amount' value="${pageMaker.cri.amount}">
+			</form>
+			
 		</div>
 	</div>
 	<%@include file="../includes/footer.jsp"%>
-	
+
 	<script>
 		$(document).ready(function(){
 			
@@ -97,17 +127,30 @@
 				self.location ="/controller/board/register";
 			});
 		
-		//조회 사이트 이동
-			
-			$("#table_a").on("click",function(e){
+		//
+			$(".page-item a").on("click",function(e){
 				
-				$(this).href("naver.com");
+				e.preventDefault();
 				
+				$("#with_paging").find("input[name='pageNum']").val($(this).attr("href"));
 				
-			})
-			
+				$("#with_paging").submit();
+				
+			});
+		
+			$(".go_get").on("click",function(e){
+				
+				e.preventDefault();
+				
+				$("#with_paging").append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+				$("#with_paging").attr("action","/controller/board/get");
+				
+				$("#with_paging").submit();
+				
+			});
+		
 		});
 	</script>
-	
+
 </body>
 </html>

@@ -2,155 +2,218 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ include file="../includes/header.jsp"%>
 
-	<%@include file="../includes/header.jsp"%>
-	<div class="container">
-		<div class="container-fluid">
-			<div class="table-responsive" style="text-align: center">
-				<table class="table table-striped table-sm">
-					<thead>
-						<tr>
-							<th scope="col">번호</th>
-							<th scope="col">제목</th>
-							<th scope="col">이름</th>
-							<th scope="col">날짜</th>
-							<th scope="col">조회</th>
-						</tr>
-					</thead>
-					<tbody>
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Tables</h1>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Board List Page
+					<button id='regBtn' type="button" class="btn btn-xs pull-right">Register
+						New Board</button>
+				</div>
+				<!-- /.panel-heading -->
+				<div class="panel-body">
+					<table class="table table-striped table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>#번호</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>작성일</th>
+								<th>수정일</th>
+							</tr>
+						</thead>
 						<c:forEach items="${list}" var="board">
 							<tr>
 								<td><c:out value="${board.bno}" /></td>
-								<td><a class="go_get" href="${board.bno}">	<c:out value="${board.title}" />
+								<td><a class='move' href='<c:out value="${board.bno}"/>'>
+									<c:out value="${board.title}" />
 								</a></td>
 								<td><c:out value="${board.writer}" /></td>
 								<td><fmt:formatDate pattern="yyyy-MM-dd"
 										value="${board.regdate}" /></td>
-								<td>0</td>
-							</tr>
+								<td><fmt:formatDate pattern="yyyy-MM-dd"
+										value="${board.updateDate}" /></td>
 						</c:forEach>
-					</tbody>
-				</table>
 
-
-				<!-- modal -->
-				<div class="modal" tabindex="-1" id="checkModal">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Modal title</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<p>처리가 완료되었습니다.</p>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-bs-dismiss="modal">Close</button>
-								<button type="button" class="btn btn-primary">Save
-									changes</button>
-							</div>
+					</table>
+					<!-- /.table-responsive -->
+					
+					<!-- 검색 -->
+					<div class='row'>
+						<div class="col-lg-12">
+							<form id='searchForm' action="/board/list" method="get">
+								<select name='type'>
+									<option value=""
+										<c:out value="${pageMaker.cri.type == null?'selected' : '' }"/>>--</option>
+									<option value="T"
+										<c:out value="${pageMaker.cri.type eq 'T' ? 'selected':'' }"/>>제목</option>
+									<option value="C"
+										<c:out value="${pageMaker.cri.type eq 'C' ? 'selected':'' }"/>>내용</option>
+									<option value="W"
+										<c:out value="${pageMaker.cri.type eq 'W' ? 'selected':'' }"/>>작성자</option>
+									<option value="TC"
+										<c:out value="${pageMaker.cri.type eq 'TC' ? 'selected':'' }"/>>제목 or 내용</option>
+									<option value="TW"
+										<c:out value="${pageMaker.cri.type eq 'TW' ? 'selected':'' }"/>>제목 or 작성자</option>
+									<option value="TWC"
+										<c:out value="${pageMaker.cri.type eq 'TWC' ? 'selected':'' }"/>>제목 or 작성자 or 내용</option>
+								</select>
+								<input type='text' name='keyword'/>
+								<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+								<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+								<button class='btn btn-default'>Search</button>
+							</form>
 						</div>
 					</div>
-				</div>
-				<!-- /modal -->
-			</div>
-			
-			<!-- pagination -->
-			<nav aria-label="Page navigation">
-				<ul class="pagination">
 					
-				  <c:if test="${pageMaker.prev}">
-					<li class="page-item disabled">
-						<a class="page-link" href="${pageMaker.startPage -1}"tabindex="-1" aria-disabled="true">Previous</a>
-					</li>
-				  </c:if>	
+					<!-- paging -->
+					<nav aria-label="Page navigation">
+						<ul class="pagination">
+							
+							<c:if test="${pageMaker.prev}">
+								<li class="paginate_button previous">
+									<a href="${pageMaker.startPage -1}">Previous</a>
+								</li>
+							</c:if>
+							
+							<c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
+								<li class="paginate_button ${pageMaker.cri.pageNum == num ? "active":""}">
+									<a href="${num}">${num}</a></li>							
+							</c:forEach>
+							
+								<c:if test="${pageMaker.next}">
+								<li class="paginate_button previous">
+									<a href="${pageMaker.endPage + 1}">Next</a>
+								</li>
+							</c:if>
+						</ul>
+					</nav>
+					
+					<form id='actionForm' action="/board/list" method="get">
+						<input type="hidden" name='pageNum' value="${pageMaker.cri.pageNum}">
+						<input type="hidden" name='amount' value="${pageMaker.cri.amount}">
+						<input type="hidden" name='type' value='<c:out value="${pageMaker.cri.type }"/>'>
+						<input type="hidden" name='keyword' value='<c:out value="${pageMaker.cri.keyword}"/>'>
+					</form>
+					
 
-				  <c:forEach var="num" begin="${pageMaker.startPage}" end="${pageMaker.endPage}">
-					<li class="page-item ${pageMaker.cri.pageNum == num ? "active" : "" }">
-						<a class="page-link" href="${num}">${num}</a>
-					</li>
-				  </c:forEach>
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+						aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+								</div>
+								<div class="modal-body">처리가 완료되었습니다.</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary">Save
+										changes</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal-dialog -->
+					</div>
+					<!-- /.modal -->
 
-				   <c:if test="${pageMaker.next}">
-					<li class="page-item">
-						<a class="page-link" href="${pageMaker.endPage -1}">Next</a>
-					</li>
-				  </c:if>
-				</ul>
-			</nav>
-		<!-- /pagination -->
-			<button type="button" class="btn btn-primary" id="btn_register">등록</button>
-			
-			<form action="/controller/board/list" method="get" id="with_paging">
-				<input type="hidden" name='pageNum' value="${pageMaker.cri.pageNum}">
-				<input type="hidden" name='amount' value="${pageMaker.cri.amount}">
-			</form>
-			
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
 		</div>
+		<!-- /.col-lg-12 -->
 	</div>
-	<%@include file="../includes/footer.jsp"%>
+</div>
+<!-- /#page-wrapper -->
 
-	<script>
-		$(document).ready(function(){
-			
-		//모달 실행	
-			
-			// controller에서 넘긴 result
-			var result = '<c:out value="${result}"/>'; 
-			//모달함수 실행
-			checkModal(result)
-			// result를 파라미터로 받아서 해결하는 모달함수
-			function checkModal(result){
-				console.log(result);
-				if(result === ''){
-					return;
-				}
-				if(parseInt(result) > 0 ){
-					$(".modal-body").html("게시글" + ${result} + "번이 등록되었습니다.");
-				}
-				
-				$("#checkModal").modal("show");
-			}
-			
-			
-		//등록 버튼 
-			$("#btn_register").on("click",function(){
-				self.location ="/controller/board/register";
-			});
-		
-		//
-			$(".page-item a").on("click",function(e){
-				
-				e.preventDefault();
-				
-				$("#with_paging").find("input[name='pageNum']").val($(this).attr("href"));
-				
-				$("#with_paging").submit();
-				
-			});
-		
-			$(".go_get").on("click",function(e){
-				
-				e.preventDefault();
-				
-				$("#with_paging").append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
-				$("#with_paging").attr("action","/controller/board/get");
-				
-				$("#with_paging").submit();
-				
-			});
-		
-		});
-	</script>
+<script>
+        	$(document).ready(function(){
+        		
+        		var result='<c:out value="${result}"/>';
+        		
+        		checkModal(result);
+        		
+        		history.replaceState({},null,null);
+        		
+        		function checkModal(result){
+        			
+        			if(result ==='' || history.state){
+        				return;
+        			}
+        			
+        			if(parseInt(result) > 0){
+        				
+        				$(".modal-body").html("게시글 " + parseInt(result) + " 번이 등록되었습니다.");
+        			}
+        			
+        			$("#myModal").modal("show");
+        		}
+        		
+        		$("#regBtn").on("click",function(){
+        			
+        			self.location="/board/register";
+        		});
+        		
+        	
+        		
+        		var actionForm = $("#actionForm");
+        	
+        		$(".paginate_button a").on("click", function(e){
+        			
+        			e.preventDefault();
+        			
+        			actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+        			
+        		 	actionForm.submit();
+        		});
+        		
+        	 	$(".move").on("click",function(e){
+        			
+        			e.preventDefault();
+        			actionForm.append("<input type='hidden' name='bno' value='"+$(this).attr("href")+"'>");
+        			
+        			actionForm.attr("action","/board/get")
+        			actionForm.submit();
+        		}); 
+        	 	
+        	 	var searchForm = $("#searchForm");
+        	 	
+        	 	$("#searchForm button").on("click",function(){
+        	 		
+        	 		if(!searchForm.find("option:selected").val()){
+        	 			
+        	 			alert("검색종류를 선택하세요");
+        	 			return false;
+        	 		}
+        	 		
+        	 		if(!searchForm.find("input[name='keyword']").val()){
+        	 			alert("키워드를 입력하세요");
+        	 			return false;
+        	 		}
+        	 		
+        	 		searchForm.find("input[name='pageNum']").val("1");
+        	 		e.preventDefault();
+        	 		
+        	 		searchForm.submit();
+        	 		
+        	 	});
+        	 	
+        	});
+        </script>
 
-</body>
-</html>
+<%@ include file="../includes/footer.jsp"%>

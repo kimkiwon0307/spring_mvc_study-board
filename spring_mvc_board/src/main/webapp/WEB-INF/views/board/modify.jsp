@@ -2,84 +2,95 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@ include file="../includes/header.jsp"%>
 
-	<%@include file="../includes/header.jsp"%>
 
-<body>
-	<header>
-	</header>
-	<div class="container">
-		<div class="sub_menu">
-			<div class = "subject_h1" >
-				<h1>수정 </h1>
-			</div>
-			<div class = "subject_h5">
-				<h5>홈 > SpringMVC게시판 > 수정</h5>
-			</div>
+<div class="row">
+	<div class="col-lg-12">
+		<h1 class="page-header">Board Read</h1>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">Board Read Page</div>
+			<div class="panel-body">
+			<form role="form" action="/board/modify" method="post">
 			
+				<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
+				<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
+				<input type="hidden" name='type' value='<c:out value="${cri.type }"/>'>
+				<input type="hidden" name='keyword' value='<c:out value="${cri.keyword}"/>'>
+
+				<div class="form-group">
+					<label>Bno</label> <input class="form-control" name='bno'
+						value='<c:out value="${board.bno}"/>' readonly="readonly">
+				</div>
+
+
+				<div class="form-group">
+					<label>Title</label> <input class="form-control" name='title'
+						value='<c:out value="${board.title}"/>'>
+				</div>
+				<div class="form-group">
+					<label>Text area</label>
+					<textarea class="form-control" rows="3" name='content' ><c:out value="${board.content}"/></textarea>
+				</div>
+				<div class="form-group">
+					<label>Writer</label> <input class="form-control" name='writer'
+					value='<c:out value="${board.writer}"/>' readonly="readonly">
+				</div>
+				<div class="form-group">
+					<label>RegDate</label> <input class="form-control" name='regdate'
+					value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${board.regdate}"/>' readonly="readonly">
+				</div>
+				
+				<div class="form-group">
+					<label>RegDate</label> <input class="form-control" name='updateDate'
+					value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${board.updateDate}"/>' readonly="readonly">
+				</div>
+				
+				
+				<button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
+				<button type="submit" data-oper='remove' class="btn btn-danger">remove</button>
+				<button type="submit" data-oper='list' class="btn btn-info">List</button>
+			 </form>
+			</div>
 		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
 		
-		<form action="/controller/board/modify" method="post" id="form_modify">
-					
-			<div class="input_group_a">
+		var formObj = $("form");
+		
+		$('button').on("click", function(e){
 			
-				<input type='hidden' name="bno" value="${board.bno}"/>
+			e.preventDefault();
 			
-				<div class="input-group mb-3">
-					<span class="input-group-text" id="basic-addon1">제 목</span> 
-					<input type="text" class="form-control" value="${board.title}" 
-					  name="title" aria-label="Username" aria-describedby="basic-addon1" required>
-				</div>
+			var operation = $(this).data("oper");
 			
-				<div class="input-group mb-3">
-					<span class="input-group-text" id="basic-addon1">작성자</span> 
-					<input type="text" class="form-control" placeholder="작성자" name="writer" value="${board.writer}" readonly="readonly">
-				</div>
-			
-			
-				<div class="input-group">
-					<span class="input-group-text">내 용</span>
-  					<textarea class="form-control" aria-label="With textarea" name="content" required>${board.content}</textarea>
-				</div>
-
-
-				<div class="btn_group">
-					<button type="submit" class="btn btn-primary" id="btn_update">수 정</button>
-					<button type="submit" class="btn btn-danger" id="btn_delete">삭 제</button>
-					<button type="button" class="btn btn-danger" id="btn_list">목 록</button>
-				</div>
-			</div>
-		</form>
-			
-	</div>
-
-	<div class="bottom">
-	</div>
-
-	<script>
-			$(document).ready(function(){
+			if(operation === 'remove'){
+				formObj.attr("action", "/board/remove");
+			}else if(operation === 'list'){
 				
-				$("#btn_list").on("click",function(){
-					self.location ="/controller/board/list";
-				});
+				formObj.attr("action","/board/list").attr("method","get");
+				var pageNumTag = $("input[name='pageNum']").clone();
+				var amountTag = $("input[name='amount']").clone();
+				var keywordTag = $("input[name='keyword']").clone();
+				var typeTag = $("input[name='type']").clone();
 				
-				
-				$("#btn_delete").on("click",function(e){
-					e.preventDefault();
-					$("#form_modify").attr("action","/controller/board/remove");
-					$(this).unbind('click').click()
-				});
-			})	
-	</script>
-
-</body>
-	<%@include file="../includes/footer.jsp"%>
-</body>
-</html>
+				formObj.empty();
+				formObj.append(pageNumTag);
+				formObj.append(amountTag);
+				formObj.append(keywordTag);
+				formObj.append(typeTag);
+			}
+			formObj.submit();
+		});
+	});
+	
+</script>
+<%@include file="../includes/footer.jsp"%>

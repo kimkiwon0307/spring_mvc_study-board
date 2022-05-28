@@ -16,7 +16,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading">Board Read Page</div>
 			<div class="panel-body">
-			<form role="form" action="/board/modify" method="post">
+			<form role="form" action="/fboard/modify" method="post">
 			
 				<input type='hidden' name='pageNum' value='<c:out value="${cri.pageNum}"/>'>
 				<input type='hidden' name='amount' value='<c:out value="${cri.amount}"/>'>
@@ -24,31 +24,31 @@
 				<input type="hidden" name='keyword' value='<c:out value="${cri.keyword}"/>'>
 
 				<div class="form-group">
-					<label>Bno</label> <input class="form-control" name='bno'
-						value='<c:out value="${board.bno}"/>' readonly="readonly">
+					<label>Bno</label> <input class="form-control" name='f_no'
+						value='<c:out value="${board.f_bno}"/>' readonly="readonly">
 				</div>
 
 
 				<div class="form-group">
-					<label>Title</label> <input class="form-control" name='title'
-						value='<c:out value="${board.title}"/>'>
+					<label>Title</label> <input class="form-control" name='f_title'
+						value='<c:out value="${board.f_title}"/>'>
 				</div>
 				<div class="form-group">
 					<label>Text area</label>
-					<textarea class="form-control" rows="3" name='content' ><c:out value="${board.content}"/></textarea>
+					<textarea class="form-control" rows="3" name='f_content' ><c:out value="${board.f_content}"/></textarea>
 				</div>
 				<div class="form-group">
-					<label>Writer</label> <input class="form-control" name='writer'
-					value='<c:out value="${board.writer}"/>' readonly="readonly">
+					<label>Writer</label> <input class="form-control" name='f_writer'
+					value='<c:out value="${board.f_writer}"/>' readonly="readonly">
 				</div>
 				<div class="form-group">
-					<label>RegDate</label> <input class="form-control" name='regdate'
-					value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${board.regdate}"/>' readonly="readonly">
+					<label>RegDate</label> <input class="form-control" name='f_date'
+					value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${board.f_date}"/>' readonly="readonly">
 				</div>
 				
 				<div class="form-group">
-					<label>RegDate</label> <input class="form-control" name='updateDate'
-					value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${board.updateDate}"/>' readonly="readonly">
+					<label>RegDate</label> <input class="form-control" name='f_udate'
+					value='<fmt:formatDate pattern = "yyyy/MM/dd" value="${board.f_udate}"/>' readonly="readonly">
 				</div>
 				
 				
@@ -73,10 +73,10 @@
 			var operation = $(this).data("oper");
 			
 			if(operation === 'remove'){
-				formObj.attr("action", "/board/remove");
+				formObj.attr("action", "/fboard/remove");
 			}else if(operation === 'list'){
 				
-				formObj.attr("action","/board/list").attr("method","get");
+				formObj.attr("action","/fboard/list").attr("method","get");
 				var pageNumTag = $("input[name='pageNum']").clone();
 				var amountTag = $("input[name='amount']").clone();
 				var keywordTag = $("input[name='keyword']").clone();

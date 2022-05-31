@@ -45,12 +45,12 @@ public class ReplyController {
 		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
 	}
 	
-	@GetMapping("/{rno}")
+	@GetMapping(value = "/{rno}", produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ReplyVO>get(@PathVariable("rno")Long rno){
 		return new ResponseEntity<>(service.get(rno), HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/{rno}")
+	@DeleteMapping(value = "/{rno}", produces = {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> remove(@PathVariable("rno") Long rno){
 		return service.remove(rno) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)
 									    : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -52,10 +52,17 @@
 </div>
 <script src="/resources/js/reply.js"></script>
 <script>
-		console.log("===============");
-		console.log("JS TEST");
+	 	console.log("===============");
+		console.log("JS TEST"); 
 		
 		var bnoValue='<c:out value="${board.bno}"/>';
+		
+		replyService.getList({bno:bnoValue, page:1}, function(list){
+			
+			for(var i = 0, len = list.length||0; i < len; i++){
+				console.log(list[i]);
+			}
+		});
 		
 		replyService.add(
 			{reply:"JS Test", replyer:"tester", bno:bnoValue}
@@ -63,7 +70,7 @@
 			function(result){
 				alert("RESULT:" + result);
 			}
-		);
+		); 
 </script>
 
 <script>

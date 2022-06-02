@@ -71,6 +71,17 @@
 				alert("RESULT:" + result);
 			}
 		); 
+		
+		replyService.remove(23, function(count){
+			
+			if(count === "success"){
+				alert("REMOVED");
+			}
+		}, function(err){
+			alert("ERROR");
+			
+		});
+		
 </script>
 
 <script>

@@ -35,15 +35,30 @@ public class ReplyController {
 		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK) :
 								  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-	
-	@GetMapping(value="/pages/{bno}/{page}")
-	public ResponseEntity<List<ReplyVO>>getList(@PathVariable("page")int page, 
-												@PathVariable("bno")Long bno){
-		
-		Criteria cri = new Criteria(page,10);
-		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
-	}
+	 @GetMapping(value = "/pages/{bno}/{page}", 
+	 produces = {
+			 MediaType.APPLICATION_XML_VALUE,
+			 MediaType.APPLICATION_JSON_UTF8_VALUE })
+public ResponseEntity<List<ReplyVO>> getList(
+	 @PathVariable("page") int page,
+	 @PathVariable("bno") Long bno) {
+
+
+Criteria cri = new Criteria(page,10);
+
+return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
+}
+//	
+//	@GetMapping(value="/pages/{bno}/{page}")
+//	public ResponseEntity<List<ReplyVO>>getList(@PathVariable("page")int page, 
+//												@PathVariable("bno")Long bno){
+//		
+//		Criteria cri = new Criteria(page,10);
+//		
+//		System.out.println(page + "" + bno);
+//		
+//		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
+//	}
 	
 	@GetMapping(value = "/{rno}", produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<ReplyVO>get(@PathVariable("rno")Long rno){

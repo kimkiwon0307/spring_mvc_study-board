@@ -34,10 +34,11 @@ public class ReplyServiceImpl implements ReplyService{
 	public int remove(Long rno) {
 		return mapper.delete(rno);
 	}
-
 	@Override
-	public List<ReplyVO> getList(Criteria cri, Long bno) {
-		return mapper.getListWithPaging(cri, bno);
-	}
+	  public List<ReplyVO> getList(Criteria cri, Long bno) {
+
+	    return mapper.getListWithPaging(cri, bno);
+
+	  }
 
 }

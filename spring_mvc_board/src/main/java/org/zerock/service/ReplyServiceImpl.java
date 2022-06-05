@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyVO;
+import org.zerock.mapper.BoardMapper;
 import org.zerock.mapper.ReplyMapper;
 
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 
 @Service
+@AllArgsConstructor
 public class ReplyServiceImpl implements ReplyService{
 	
 	private ReplyMapper mapper;
@@ -17,6 +20,7 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	@Override
 	public int register(ReplyVO vo) {
+		System.out.println(vo.toString()+"반삽2");
 		return mapper.insert(vo);
 	}
 

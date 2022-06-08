@@ -49,7 +49,6 @@ public class UploadController {
 		}
 	}
 	
-	
 	@GetMapping("/uploadAjax")
 	public void uploadAjax() {
 		
@@ -75,26 +74,23 @@ public class UploadController {
 		   
 		   String uploadFileName = multipartFile.getOriginalFilename();
 		   
-		   uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\")+1);
-		   
 		   UUID uuid = UUID.randomUUID();
 		   
 		   uploadFileName = uuid.toString() + "_" + uploadFileName;
 		   
-		   
-		   try {
-			   File saveFile = new File(uploadFolder, uploadFileName);
-			multipartFile.transferTo(saveFile);
-			// check image type file
-			if(checkImageType(saveFile)) {
-				FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath,"s_"+uploadFileName));
-				Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-				thumbnail.close();
-			}
-		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
-		}
-	   }
+		  try {
+			  File saveFile = new File(uploadPath, uploadFileName);
+			  multipartFile.transferTo(saveFile);
+			  
+			  if(checkImageType(saveFile)) {
+				  FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+				  Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+				  thumbnail.close();
+			  }
+		  }catch(Exception e) {
+			  e.printStackTrace();
+		  }//end catch
+	   } // end for
    }
    
    private String getFolder() {

@@ -9,6 +9,7 @@ import java.util.stream.IntStream;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.zerock.domain.SampleVO;
 import org.zerock.domain.Ticket;
 
-@RestController
-@RequestMapping("/sample")
+import jdk.internal.org.jline.utils.Log;
+
+@Controller
+@RequestMapping("/sample/*")
 public class SampleController {
 
 		
@@ -78,6 +81,21 @@ public class SampleController {
 	public Ticket convert(@RequestBody Ticket ticket) {
 		
 		return ticket;
+	}
+	
+	
+	@GetMapping("/all")
+	public void doAll() {
+		
+		System.out.println("접속");
+	}
+	
+	@GetMapping("/member")
+	public void doMember() {
+	}
+	
+	@GetMapping("/admin")
+	public void doAdmin() {
 	}
 	
 }

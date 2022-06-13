@@ -37,6 +37,7 @@
 			return true;
 		}
 		
+		var cloneObj = $(".uploadDiv").clone();
 		
 		$("#uploadBtn").on("click",function(){
 			
@@ -65,11 +66,16 @@
 				contentType: false,
 				data: formData,
 				type: 'POST',
+				dataType : 'json',
+				
 				success: function(result){
-					alert("Upload");
+					console.log(result);
+					
+					$(".uploadDiv").html(cloneObj.html());
 				}
 			});
-		});
+	
+		});//$("#uploadBtn").on("click",function()
 		
 		
 		

@@ -36,13 +36,15 @@ public class ReplyController {
 		return insertCount == 1 ? new ResponseEntity<>("success", HttpStatus.OK) :
 								  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	 @GetMapping(value = "/pages/{bno}/{page}", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
+	
+	 @GetMapping(value = "/pages/{bno}/{page}", 
+			 	produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE })
 	 public ResponseEntity<List<ReplyVO>> getList( @PathVariable("page") int page, @PathVariable("bno") Long bno) {
 
 		Criteria cri = new Criteria(page,10);
 
-	return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
-}
+		return new ResponseEntity<>(service.getList(cri, bno), HttpStatus.OK);
+	 }
 
 	
 	@GetMapping(value = "/{rno}", produces= {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
@@ -56,7 +58,8 @@ public class ReplyController {
 									    : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping(method= {RequestMethod.PUT, RequestMethod.PATCH}, value="/{rno}",consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
+	@RequestMapping(method= {RequestMethod.PUT, RequestMethod.PATCH}, 
+					value="/{rno}",consumes="application/json", produces= {MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> modify(@RequestBody ReplyVO vo, @PathVariable("rno") Long rno){
 		vo.setRno(rno);
 		return service.modify(vo) == 1 ? new ResponseEntity<>("success", HttpStatus.OK)

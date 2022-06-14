@@ -47,6 +47,8 @@ public class BoardController {
 		
 		rttr.addFlashAttribute("result", board.getBno());
 		
+		System.out.println(board.getTitle());
+		
 		return "redirect:/board/list";
 	}
 	

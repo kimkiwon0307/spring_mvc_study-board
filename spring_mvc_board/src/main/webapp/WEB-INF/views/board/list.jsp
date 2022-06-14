@@ -193,7 +193,7 @@
         	 	
         	 	var searchForm = $("#searchForm");
         	 	
-        	 	$("#searchForm button").on("click",function(){
+        	 	$("#searchForm button").on("click",function(e){
         	 		
         	 		if(!searchForm.find("option:selected").val()){
         	 			

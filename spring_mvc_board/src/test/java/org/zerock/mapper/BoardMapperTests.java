@@ -82,8 +82,7 @@ public class BoardMapperTests {
 		
 		Criteria cri = new Criteria();
 		cri.setKeyword("새로");
-		cri.setType("ABC");
-		System.out.println("안녕");
+		cri.setType("TC");
 		String[] a = cri.getTypeArr();
 		for(String b : a) {
 			System.out.println(b);

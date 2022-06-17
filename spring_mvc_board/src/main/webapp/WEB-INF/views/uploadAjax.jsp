@@ -70,15 +70,10 @@
 				
 				success: function(result){
 					console.log(result);
-					
-					$(".uploadDiv").html(cloneObj.html());
 				}
-			});
+			});//$.ajax
 	
 		});//$("#uploadBtn").on("click",function()
-		
-		
-		
 	});
 </script>
 
